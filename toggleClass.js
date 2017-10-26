@@ -1,16 +1,28 @@
-function togClass(elid,className) {
-  el = document.getElementById(elid);
-  if (el.classList) {
-    el.classList.toggle(className);
-  } else {
-    var classes = el.className.split(' ');
-    var existingIndex = classes.indexOf(className);
+    (function () {
 
-    if (existingIndex >= 0)
-    classes.splice(existingIndex, 1);
-    else
-    classes.push(className);
+        // hasClass
+        function hasClass(elem, className) {
+            return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+        }
 
-    el.className = classes.join(' ');
-   }
-}
+        // toggleClass
+        function toggleClass(elem, className) {
+            var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
+            if (hasClass(elem, className)) {
+                while (newClass.indexOf(' ' + className + ' ') >= 0) {
+                    newClass = newClass.replace(' ' + className + ' ', ' ');
+                }
+                elem.className = newClass.replace(/^\s+|\s+$/g, '');
+            } else {
+                elem.className += ' ' + className;
+            }
+        }
+
+        // Mobile nav function
+        var mobileNav = document.querySelector('.burger');
+        var toggle = document.querySelector('.top-menu');
+        mobileNav.onclick = function () {
+            toggleClass(this, 'burger-open');
+            toggleClass(toggle, 'nav-active');
+        };
+    })();
